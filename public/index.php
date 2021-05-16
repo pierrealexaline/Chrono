@@ -8,10 +8,10 @@ use App\Chrono\Soap;
 
 $shipping_params = [ 
     // Chronopost account api password / Mot de passe Api Cgronopost
-    'password'                      => //666666, 
+    'password'                      => 666666, 
     // Chronopost account / Compte client chronopost
     'headerValue'                   => [
-        "accountNumber"             => //'66666666',
+        "accountNumber"             => '66666666',
         "subAccount"                => '',
         "idEmit"                    => 'CHRFR',
         "identWebPro"               => '',    
