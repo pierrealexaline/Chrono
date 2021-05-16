@@ -9,7 +9,7 @@ use App\Chrono\Stickers;
 
 $shipping_params = [ 
     // Chronopost account api password / Mot de passe Api Cgronopost
-    'password'                  => 666666, 
+    'password'                      => 666666, 
     // Chronopost account / Compte client chronopost
     'headerValue'                   => [
         "accountNumber"             => '66666666',
@@ -124,5 +124,5 @@ if ($result->return->errorCode) {
     $fp = fopen('pdf/chronopost_'.trim($chrono_id).'.pdf', 'w');
     fwrite($fp, $result->return->skybill);
     fclose($fp);
-    echo 'MaBoutique.fr -> récuperer mon etiquette en PDF : <a href="/public/pdf/chronopost_'.trim($chrono_id).'.pdf">chronopost '.trim($chrono_id).'</a><br>' . PHP_EOL;
+    echo 'MaBoutique.fr -> récuperer mon etiquette en PDF : <a href="/pdf/chronopost_'.trim($chrono_id).'.pdf">chronopost '.trim($chrono_id).'</a><br>' . PHP_EOL;
 }
