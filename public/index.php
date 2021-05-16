@@ -7,7 +7,7 @@ use App\Chrono\Soap;
 // Simplified array for Chronopost Soap api client
 
 $shipping_params = [ 
-    // Chronopost account api password / Mot de passe Api Cgronopost
+    // Chronopost account api password / Mot de passe Api Chronopost
     'password'                      => 666666, 
     // Chronopost account / Compte client chronopost
     'headerValue'                   => [
