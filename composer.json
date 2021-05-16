@@ -1,6 +1,6 @@
 {
-    "name": "chrono/stickers",
-    "description": "A simple php wrapper for chronopost api",
+    "name": "chrono/soap",
+    "description": "A simple php wrapper for chronopost soap api",
     "authors": [
         {
             "name": "Pierre Alexaline",
