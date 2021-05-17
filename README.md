@@ -1,5 +1,5 @@
 # Chrono
-A chronopost Soap Api connector for create PDF Sky bill
+A chronopost Soap Api connector for create Sky bill PDF 
 
 ## installation
 
@@ -13,11 +13,55 @@ A chronopost Soap Api connector for create PDF Sky bill
 ## Usage
 
 This class implement a client soap server from the native php soap server class.
-The wsdl is configured and embeded in a constant in the Chrono\Stickers class.
+The wsdl is configured and embeded in a constant in the Chrono\Soap class.
 All the others parameters ara configured externaly in an array.
 
-ex of complete array of parameters :
+### Exemple of how to lauch the soap server and get results or catch exceptions
+
+See index.php for  simplified array of chronopost api parameters to print PDF stickers / Sky bill,
+and change this variables by your own (at least the account id and password)...
+
 ```
+// public/index.php
+
+require  './../vendor/autoload.php';
+
+use App\Chrono\Soap;
+
+// ...
+
+$chronopost_client = new App\Chrono\Soap();
+if(false!==$chronopost_client->soapCheck()) {
+    $chrono_id = uniqId();
+    try {
+        $result = $chronopost_client->soapLaunch($shipping_params);
+    } catch (SoapFault $soapFault) {
+        var_dump($soapFault);
+        exit($soapFault->faultstring);
+    }
+    if ($result->return->errorCode) {
+        echo 'Erreur n° ' . $result->return->errorCode . ' : ' . 
+        $result->return->errorMessage;
+        var_dump($result);
+    } else {
+        $fp = fopen('pdf/chronopost_'.trim($chrono_id).'.pdf', 'w');
+        fwrite($fp, $result->return->skybill);
+        fclose($fp);
+        echo 'MaBoutique.fr -> récuperer mon etiquette en PDF : <a href="/pdf/chronopost_'.trim($chrono_id).'.pdf">chronopost '.trim($chrono_id).'</a><br>' . PHP_EOL;
+    }
+} else {
+    echo "<p>Soap not installed. Install Soap with : <br><em><code>sudo apt-get install php-soap</code></em>
+    and <em><code>sudo systemctl restart apache2</code></em>.<br>Sometimes you will have to change this line in php.ini : <br>
+    <em><code>;extension=soap</code></em> to <em><code>extension=soap</code></em></p>";
+}
+ 
+```
+
+### exemple of a complete array of parameters
+
+```
+// public/index.php
+
 $shipping_params = [ 
     // Chronopost account api password / Mot de passe Api Cgronopost
     'password'                  => 666666,                                      //YOUR CHRONOPOST API PASSWORD ex : 666666       *******************  CHANGE WITH YOUR   
@@ -80,7 +124,6 @@ $shipping_params = [
         "recipientZipCode"          => '33160',
         "recipientCivility"         => 'M',
     ],   
- 
     // Sky Bill / Etiquette de livraison / Caractéristique du colis
     'skybillValue' => [
         "productCode"               => '86',            // Code Produit Chronopost [0 : Chrono Retrait Bureau | 1 : Chrono 13 | 86 : Chrono Relais | cf Docts ANNEXE 8 ]
@@ -118,7 +161,6 @@ $shipping_params = [
         "specificInstructions"      => '',              // string
         "width"                     => '',              // float
     ],
-
     // Reference values / Valeurs de réference
     'refValue' => [
         "customerSkybillNumber"     => '',              // string Numéro colis client 15 carac max -> code barre A4 - ex 123456789
@@ -128,7 +170,6 @@ $shipping_params = [
                                                         // * Chrono Relais (86), Chrono Relais 9 (80), Chrono Relais Europe (3T)*  et Chrono Zengo Relais 13 (3K) 
                                                         // remplir avec code du point relais Réf Expéditeur (ex: '000000000000001')
     ],
- 
     // Skybill Params Value / Etiquette de livraison - format de fichiers /datas
     'skybillParamsValue' => [
         "mode"           => 'PDF',                          // Format final etiquette : default PDF | ...
@@ -136,13 +177,10 @@ $shipping_params = [
 ];
 
 ```
+## Todo
 
-### Exemple :
+Make a functionnal wrapper for the entire Chronopost Soap API .... lot of work !
 
-See index.php for  simplified array of chronopost api parameters to print PDF stickers / Sky bill,
-and change this variables by your own (at least the account id and password).
-
- 
 ## Source
 
 - chronopost official documentation (see docts directory)
