@@ -1,4 +1,5 @@
 # Chrono
+
 A chronopost Soap Api connector for create Sky bill PDF 
 
 ## installation
@@ -8,6 +9,9 @@ A chronopost Soap Api connector for create Sky bill PDF
 ``` composer install ```
 
 - Then launch a local server on public directory
+  
+``` php -S localhost:8000 ```
+
 - [ Do not forget to made RW public/pdf/ for generate pdf in the index.php exemple ]
 
 ## Usage
